@@ -7,16 +7,19 @@ requires-python = ">=3.11,<3.13"
 dependencies = [
     "cs336-basics",
     "humanfriendly",
+    "einops>=0.8.1",
+    "einx>=0.3.0",
+    "jaxtyping>=0.3.0",
     "matplotlib",
     "numpy",
     "pytest>=8",
     "regex>=2024.11.6",
     "torch~=2.6.0; sys_platform != 'darwin' or platform_machine != 'x86_64'",
     "torch~=2.2.2; sys_platform == 'darwin' and platform_machine == 'x86_64'", # Intel Macs
+    "torchinfo~=1.8.0",
     "tqdm>=4.67.1",
     "wandb>=0.19.7",
     "pandas>=2",
-    "ty>=0.0.1a16",
 ]
 
 [build-system]
@@ -40,6 +43,7 @@ cs336-basics = { path = "./cs336-basics", editable = true }  # Change this path 
 log_cli = true
 log_cli_level = "WARNING"
 addopts = "-s"
+testpaths = ["tests"]
 
 [tool.ruff]
 line-length = 120
