@@ -12,7 +12,7 @@ import torch
 def get_run_name(prefix: str | None) -> str | None:
     """Given an optional prefix, returns a name with a unique suffix"""
     if prefix:
-        return prefix + f"-{uuid.uuid4().hex[:6]}"
+        return f"{prefix}-{uuid.uuid4().hex[:6]}"
     return None
 
 

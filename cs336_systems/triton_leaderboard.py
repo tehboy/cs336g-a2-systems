@@ -34,7 +34,8 @@ def get_tensors(
     device: torch.device,
 ) -> tuple[Float[torch.Tensor, "nh t d"], ...]:
     """Returns a tuple of random tensors q,k,v for benchmarking."""
-    q = torch.randn(
+    return torch.randn(
+        3,
         n_heads,
         context_length,
         d_head,
@@ -42,24 +43,6 @@ def get_tensors(
         dtype=dtype,
         requires_grad=True,
     )
-    k = torch.randn(
-        n_heads,
-        context_length,
-        d_head,
-        device=device,
-        dtype=dtype,
-        requires_grad=True,
-    )
-    v = torch.randn(
-        n_heads,
-        context_length,
-        d_head,
-        device=device,
-        dtype=dtype,
-        requires_grad=True,
-    )
-
-    return q, k, v
 
 
 def parse_args(argv: Sequence[str]) -> argparse.Namespace:
