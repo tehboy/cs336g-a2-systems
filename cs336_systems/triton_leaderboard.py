@@ -15,6 +15,7 @@ uv run python cs336_systems/triton_leaderboard.py \
 
 import argparse
 import logging
+import statistics
 import sys
 from collections.abc import Sequence
 
@@ -52,17 +53,27 @@ def parse_args(argv: Sequence[str]) -> argparse.Namespace:
     )
 
     parser.add_argument(
+        "--num-samples",
+        type=int,
+        default=3,
+        help="The number of samples to take when computing the average timing.",
+        required=False,
+    )
+
+    parser.add_argument(
         "--warmup",
         type=int,
+        default=1_000,
         help="The warmup time (given in ms).",
-        required=True,
+        required=False,
     )
 
     parser.add_argument(
         "--rep",
         type=int,
+        default=10_000,
         help="The repetition time (given in ms).",
-        required=True,
+        required=False,
     )
 
     parser.add_argument(
@@ -149,12 +160,18 @@ def main(argv: Sequence[str]) -> None:
         _ = loss.backward()
 
     logging.info("Running benchmark...")
-    avg_ms = triton.testing.do_bench(
-        flash_fwd_bwd,
-        rep=args.rep,
-        warmup=args.warmup,
-    )
-    print(f"Average execution time (ms): {avg_ms}")
+
+    results = []
+    for i in range(args.num_samples):
+        logging.info("Taking sample %d...", i)
+        avg_ms = triton.testing.do_bench(
+            flash_fwd_bwd,
+            rep=args.rep,
+            warmup=args.warmup,
+        )
+        results.append(avg_ms)
+
+    print(f"Average execution time (ms): {statistics.mean(results)}")
 
 
 if __name__ == "__main__":
