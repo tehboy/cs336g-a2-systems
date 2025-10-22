@@ -4,7 +4,7 @@
       "repositories": {
         "tehboy/cs336g-a1-basics": {
           "permissions": {
-            "contents": "read"
+            "contents": "write"
           }
         }
       }
